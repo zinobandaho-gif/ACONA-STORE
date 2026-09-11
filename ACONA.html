@@ -18,6 +18,9 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <!-- Firebase Auth (Google sign-in for all visitors, no private domain needed) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <style>
       * {
         margin: 0;
@@ -3850,11 +3853,57 @@
           }
         }
       }
-      function googleLogin() {
+      var FIREBASE_CONFIG = {
+        apiKey: "AIzaSyAP8TbswHETFKBV7rkYdZ3HQ6e7dRp3bQw",
+        authDomain: "acona-store.firebaseapp.com",
+        projectId: "acona-store",
+        storageBucket: "acona-store.firebasestorage.app",
+        messagingSenderId: "1054331561403",
+        appId: "1:1054331561403:web:1838be1a46cc5df346909e"
+      };
+      function firebaseApp() {
+        try {
+          if (!window.firebase || !firebase.auth) return null;
+          if (firebase.apps && firebase.apps.length) return firebase.apps[0];
+          firebase.initializeApp(FIREBASE_CONFIG);
+          return firebase.apps[0];
+        } catch (e) {
+          return null;
+        }
+      }
+      async function googleLogin() {
         if (API_BASE === null) {
           toast(Tf("needServer"));
           return;
         }
+        // Primary: Firebase Google sign-in (works for all visitors).
+        var app = firebaseApp();
+        if (app) {
+          try {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            var cred = await firebase.auth().signInWithPopup(provider);
+            var idToken = await cred.user.getIdToken();
+            var r = await fetch("/api/auth/firebase", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idToken: idToken })
+            });
+            var d = await r.json().catch(function () {
+              return {};
+            });
+            if (!r.ok) throw new Error((d && d.error) || "login_failed");
+            closeLogin();
+            await loadMe();
+            toast(Tf("welcomeBack"));
+            happySound();
+            return;
+          } catch (e) {
+            if (e && e.code === "auth/popup-closed-by-user") return;
+            toast(Tf("loginFailed"));
+            return;
+          }
+        }
+        // Fallback: direct server OAuth (local testing only).
         location.href = "/api/auth/google/start";
       }
       async function googleLogout() {
