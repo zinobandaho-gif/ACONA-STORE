@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ACONA STORE | Admin Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Inter",system-ui,sans-serif;background:linear-gradient(180deg,#07070d,#150f2e 60%,#0a0614);background-attachment:fixed;color:#f4f2ff;min-height:100vh;padding:1.2rem}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:1.5rem;background:linear-gradient(135deg,#e9d5ff,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:#a79fc4;font-size:.88rem;margin:.2rem 0 1rem}
+.bar{display:flex;gap:.6rem;margin-bottom:1rem;flex-wrap:wrap}
+.bar input,.bar select{flex:1;min-width:160px;background:#151024;border:1px solid rgba(139,92,246,.35);color:#fff;border-radius:10px;padding:.65rem .9rem;font-family:inherit}
+.bar button{background:linear-gradient(135deg,#0a0614,#5b21b6);color:#fff;border:1px solid rgba(196,181,253,.4);border-radius:10px;padding:.65rem 1.2rem;font-weight:800;cursor:pointer}
+.tabs{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.tabs button{background:#151024;border:1px solid rgba(139,92,246,.3);color:#a79fc4;border-radius:999px;padding:.55rem 1.2rem;font-weight:800;cursor:pointer}
+.tabs button.active{background:linear-gradient(135deg,#0a0614,#5b21b6);color:#fff;border-color:#8b5cf6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.2rem}
+.stat{background:#151024;border:1px solid rgba(139,92,246,.3);border-radius:14px;padding:1rem 1.2rem}
+.stat small{color:#a79fc4;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.stat b{display:block;font-size:1.5rem;margin-top:.2rem}
+.stat.gold b{color:#f0d47a}
+.panel{background:#151024;border:1px solid rgba(139,92,246,.3);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:1.2rem}
+.panel h3{font-size:.95rem;margin-bottom:.7rem;color:#c4b5fd}
+.chart{display:flex;align-items:flex-end;gap:6px;height:120px}
+.chart div{flex:1;background:linear-gradient(180deg,#8b5cf6,#3b1470);border-radius:6px 6px 0 0;min-height:4px;position:relative}
+.chart div span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.62rem;color:#a79fc4;white-space:nowrap;display:none}
+.chart div:hover span{display:block}
+table{width:100%;background:#151024;border:1px solid rgba(139,92,246,.3);border-radius:14px;overflow:hidden;border-collapse:collapse;font-size:.85rem}
+th,td{padding:.65rem .7rem;border-bottom:1px solid rgba(139,92,246,.15);text-align:left;vertical-align:top}
+th{background:#0a0614;color:#c4b5fd}
+tr:last-child td{border-bottom:0}
+td small{color:#a79fc4}
+.st{font-weight:800;font-size:.75rem;padding:.2rem .6rem;border-radius:999px;background:#2a2440;color:#ddd0ff}
+.st.pending{background:#4a3a10;color:#f0d47a}.st.confirmed{background:#1e3a5f;color:#7dd3fc}.st.shipped{background:#3b2a6e;color:#c4b5fd}.st.delivered{background:#0f3d26;color:#4ade80}.st.cancelled{background:#4a1620;color:#f87171}
+select.st-sel,input.mini{background:#0a0614;color:#fff;border:1px solid rgba(139,92,246,.4);border-radius:8px;padding:.35rem .5rem;font-family:inherit;margin-top:.3rem}
+input.mini{width:90px}
+.err{background:#4a1620;border:1px solid #f87171;color:#fecaca;border-radius:10px;padding:.7rem 1rem;margin-bottom:1rem;display:none}
+.ok-note{color:#4ade80;font-size:.85rem;margin-bottom:.6rem;display:none}
+.rowbtns{display:flex;gap:.4rem;margin-top:.3rem}
+.rowbtns button{background:#0a0614;border:1px solid rgba(139,92,246,.4);color:#fff;border-radius:8px;padding:.3rem .7rem;cursor:pointer;font-size:.78rem;font-weight:700}
+.rowbtns button.danger{border-color:#f87171;color:#f87171}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr}table{font-size:.75rem}th:nth-child(4),td:nth-child(4){display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ACONA STORE — Admin</h1>
+  <p class="sub">Private dashboard · orders, revenue, products, coupons, customers · token stays in memory only</p>
+  <div class="err" id="err"></div>
+  <div class="ok-note" id="okNote"></div>
+  <div class="bar">
+    <span style="flex:1;min-width:160px;display:flex;gap:.4rem;align-items:stretch"><input id="tok" type="password" placeholder="ADMIN_TOKEN" autocomplete="off" style="flex:1;min-width:0" /><button id="eyeBtn" onclick="toggleTok()" title="Show / hide token" aria-label="Show or hide token" style="flex:0 0 auto;padding:.65rem .9rem">👁</button></span>
+    <button onclick="connect()">Connect</button>
+    <button onclick="load(true)" style="background:#151024">Refresh</button>
+    <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#a79fc4"><input type="checkbox" id="auto" checked onchange="autoRef()" /> auto 20s</label>
+  </div>
+  <div id="dash" style="display:none">
+    <div class="stats">
+      <div class="stat gold"><small>Revenue</small><b id="sRev">$0</b></div>
+      <div class="stat"><small>Orders</small><b id="sOrd">0</b></div>
+      <div class="stat"><small>Avg order</small><b id="sAvg">$0</b></div>
+      <div class="stat"><small>Pending</small><b id="sPen">0</b></div>
+      <div class="stat"><small>Newsletter subs</small><b id="sNews">0</b></div>
+      <div class="stat"><small>Customers (sessions)</small><b id="sSes">0</b></div>
+    </div>
+    <div class="panel"><h3>Revenue — last 14 days</h3><div class="chart" id="chart"></div></div>
+    <div class="panel"><h3>Top products</h3><div id="topList" style="font-size:.85rem;color:#c4b5fd">—</div></div>
+    <div class="tabs">
+      <button id="tabO" class="active" onclick="showTab('orders')">Orders</button>
+      <button id="tabP" onclick="showTab('products')">Products</button>
+      <button id="tabC" onclick="showTab('coupons')">Coupons</button>
+      <button id="tabN" onclick="showTab('news')">Newsletter</button>
+      <button id="tabU" onclick="showTab('users')">Customers</button>
+    </div>
+    <div class="bar" id="filterBar">
+      <input id="q" placeholder="Search number / name / phone..." oninput="renderOrders()" />
+      <select id="fSt" onchange="renderOrders()"><option value="">All statuses</option><option>pending</option><option>confirmed</option><option>shipped</option><option>delivered</option><option>cancelled</option></select>
+    </div>
+    <table id="tblOrders">
+      <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Pay</th><th>Status</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <table id="tblProducts" style="display:none">
+      <thead><tr><th>ID</th><th>Product</th><th>Price</th><th>Old</th><th>Rate</th><th>Actions</th></tr></thead>
+      <tbody id="rowsPro"></tbody>
+    </table>
+    <div id="paneCoupons" style="display:none">
+      <div class="bar">
+        <input id="cCode" placeholder="CODE (e.g. SUMMER20)" style="flex:1" />
+        <input id="cPct" type="number" min="1" max="90" value="10" style="flex:0 0 90px" />
+        <input id="cMin" type="number" min="0" value="0" style="flex:0 0 110px" title="min total" />
+        <button onclick="addCoupon()">Add coupon</button>
+      </div>
+      <table><thead><tr><th>Code</th><th>Off</th><th>Min</th><th>Active</th><th></th></tr></thead><tbody id="rowsCou"></tbody></table>
+    </div>
+    <table id="tblNews" style="display:none">
+      <thead><tr><th>Email</th><th>Subscribed at</th></tr></thead>
+      <tbody id="rowsNews"></tbody>
+    </table>
+    <table id="tblUsers" style="display:none">
+      <thead><tr><th>Name</th><th>Email</th><th>Since</th></tr></thead>
+      <tbody id="rowsUsers"></tbody>
+    </table>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let TOK="",ORDERS=[],NEWS=[],USERS=[],COUPONS=[],PRODUCTS=[],ST=null,TAB="orders",TIMER=null;
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function err(m){const e=$("err");if(!m){e.style.display="none";return;}e.textContent=m;e.style.display="block";}
+function ok(m){const e=$("okNote");e.textContent=m;e.style.display="block";setTimeout(()=>e.style.display="none",2200);}
+async function api(p,opts){const r=await fetch(p,Object.assign({headers:{"x-admin-token":TOK}},opts||{}));if(r.status===401)throw new Error("auth");if(!r.ok){let d={};try{d=await r.json();}catch(e){}throw new Error((d&&d.error)||("srv"+r.status));}return r.json();}
+function toggleTok(){const i=$("tok"),b=$("eyeBtn");if(!i)return;const show=i.type==="password";i.type=show?"text":"password";if(b)b.textContent=show?"🙈":"👁";if(i)i.focus();}
+async function connect(){TOK=$("tok").value.trim();err("");if(!TOK){err("Enter ADMIN_TOKEN first.");return;}await load(true);}
+async function load(manual){
+  if(!TOK){if(manual)err("Enter ADMIN_TOKEN first.");return;}
+  try{
+    const [st,orders,news,users,coupons,prods]=await Promise.all([
+      api("/api/admin/stats"),api("/api/admin/orders"),api("/api/admin/newsletter"),
+      api("/api/admin/sessions"),api("/api/admin/coupons"),
+      fetch("/api/products").then(r=>{if(!r.ok)throw new Error("products");return r.json();})
+    ]);
+    ORDERS=orders;NEWS=news;USERS=users;COUPONS=coupons;PRODUCTS=prods;ST=st;err("");
+    $("dash").style.display="block";
+    $("sRev").textContent="$"+Number(st.revenue||0).toLocaleString("en-US");
+    $("sOrd").textContent=st.orders||0;$("sAvg").textContent="$"+Number(st.avgOrder||0).toLocaleString("en-US");
+    $("sPen").textContent=(st.byStatus&&st.byStatus.pending)||0;
+    $("sNews").textContent=st.newsletter||0;$("sSes").textContent=st.sessions||0;
+    const days=st.revenueByDay||[],mx=Math.max(1,...days.map(d=>d.revenue));
+    $("chart").innerHTML=days.map(d=>`<div style="height:${Math.max(3,Math.round(d.revenue/mx*112))}px" title="${d.day}: $${d.revenue} (${d.orders})"><span>${d.day.slice(5)} · $${d.revenue}</span></div>`).join("");
+    $("topList").innerHTML=(st.topProducts||[]).map((t,i)=>`${i+1}. ${esc(t.name)} — ${t.qty} sold · $${Number(t.revenue).toLocaleString("en-US")}`).join("<br/>")||"No sales yet.";
+    showTab(TAB);if(manual)ok("Connected — data loaded.");
+  }catch(e){err(e.message==="auth"?"Wrong token (unauthorized).":"Cannot reach backend ("+e.message+"). Run: node server.js inside backend/");}
+}
+function showTab(t){TAB=t;["O","P","C","N","U"].forEach(k=>$("tab"+k).classList.remove("active"));$("tab"+t[0].toUpperCase()).classList.add("active");
+  $("tblOrders").style.display=t==="orders"?"":"none";$("tblProducts").style.display=t==="products"?"":"none";
+  $("paneCoupons").style.display=t==="coupons"?"":"none";$("tblNews").style.display=t==="news"?"":"none";
+  $("tblUsers").style.display=t==="users"?"":"none";$("filterBar").style.display=t==="orders"?"":"none";
+  if(t==="orders")renderOrders();if(t==="products")renderProducts();if(t==="coupons")renderCoupons();if(t==="news")renderNews();if(t==="users")renderUsers();}
+function renderOrders(){const q=$("q").value.trim().toLowerCase(),fs=$("fSt").value;
+  const list=ORDERS.filter(o=>{if(fs&&o.status!==fs)return false;if(q&&!(o.number+" "+o.customer.name+" "+o.customer.phone).toLowerCase().includes(q))return false;return true;});
+  if(!list.length){$("rows").innerHTML='<tr><td colspan="6" style="color:#a79fc4">No orders.</td></tr>';return;}
+  $("rows").innerHTML=list.map(o=>`<tr><td><b>${esc(o.number)}</b><br/><small>${esc((o.createdAt||"").slice(0,16).replace("T"," "))}</small></td><td>${esc(o.customer.name)}<br/><small>${esc(o.customer.phone)} · ${esc(o.customer.city)}<br/>${esc(o.customer.address||"")}</small></td><td>${o.lines.map(l=>esc(l.qty+"× "+l.name)).join("<br/>")}${o.coupon?`<br/><small>coupon ${esc(o.coupon)} (-$${Number(o.discount||0)})</small>`:""}</td><td><b>$${Number(o.total).toLocaleString("en-US")}</b><br/><small>ship $${Number(o.shipping||0)}</small></td><td>${esc(o.payMethod==="card"?"Card ····"+(o.cardLast4||""):"Cash")}</td><td><span class="st ${esc(o.status)}">${esc(o.status)}</span><br/><select class="st-sel" onchange="setStatus('${esc(o.number)}',this.value)">${["pending","confirmed","shipped","delivered","cancelled"].map(s=>`<option value="${s}"${s===o.status?" selected":""}>${s}</option>`).join("")}</select></td></tr>`).join("");}
+async function setStatus(number,status){try{await api("/api/admin/orders/"+encodeURIComponent(number),{method:"PUT",headers:{"Content-Type":"application/json","x-admin-token":TOK},body:JSON.stringify({status})});ok(number+" → "+status);load(false);}catch(e){err("Failed to update: "+e.message);}}
+function renderProducts(){$("rowsPro").innerHTML=PRODUCTS.map(p=>`<tr><td>${p.id}</td><td><b>${esc((p.en||{}).n||"")}</b><br/><small>${esc(p.cat)}</small></td><td>$<input class="mini" style="width:70px" value="${p.price}" id="pp${p.id}" /></td><td>$<input class="mini" style="width:70px" value="${p.old||p.price}" id="po${p.id}" /></td><td><input class="mini" style="width:56px" value="${p.rate||""}" id="pr${p.id}" /></td><td><div class="rowbtns"><button onclick="saveProduct(${p.id})">Save</button><button class="danger" onclick="delProduct(${p.id})">Del</button></div></td></tr>`).join("");}
+async function saveProduct(id){try{await api("/api/admin/products/"+id,{method:"PUT",headers:{"Content-Type":"application/json","x-admin-token":TOK},body:JSON.stringify({price:Number($("pp"+id).value),old:Number($("po"+id).value),rate:Number($("pr"+id).value)})});ok("Product #"+id+" saved.");load(false);}catch(e){err("Save failed: "+e.message);}}
+async function delProduct(id){if(!confirm("Delete product #"+id+"?"))return;try{await api("/api/admin/products/"+id,{method:"DELETE"});ok("Deleted #"+id);load(false);}catch(e){err("Delete failed: "+e.message);}}
+function renderCoupons(){$("rowsCou").innerHTML=COUPONS.map(c=>`<tr><td><b>${esc(c.code)}</b></td><td>-${c.pct}%</td><td>$${c.min||0}</td><td>${c.active?"✅":"❌"}</td><td><div class="rowbtns"><button onclick="toggleCoupon('${esc(c.code)}',${c.active?0:1})">${c.active?"Off":"On"}</button><button class="danger" onclick="delCoupon('${esc(c.code)}')">Del</button></div></td></tr>`).join("")||'<tr><td colspan="5" style="color:#a79fc4">No coupons.</td></tr>';}
+async function addCoupon(){try{await api("/api/admin/coupons",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":TOK},body:JSON.stringify({code:$("cCode").value,pct:Number($("cPct").value),min:Number($("cMin").value)})});$("cCode").value="";ok("Coupon added.");load(false);}catch(e){err("Add failed: "+e.message);}}
+async function toggleCoupon(code,on){try{await api("/api/admin/coupons/"+encodeURIComponent(code),{method:"PUT",headers:{"Content-Type":"application/json","x-admin-token":TOK},body:JSON.stringify({active:!!on})});load(false);}catch(e){err("Failed: "+e.message);}}
+async function delCoupon(code){if(!confirm("Delete "+code+"?"))return;try{await api("/api/admin/coupons/"+encodeURIComponent(code),{method:"DELETE"});load(false);}catch(e){err("Failed: "+e.message);}}
+function renderNews(){if(!NEWS.length){$("rowsNews").innerHTML='<tr><td colspan="2" style="color:#a79fc4">No subscribers yet.</td></tr>';return;}
+  $("rowsNews").innerHTML=NEWS.slice().reverse().map(n=>`<tr><td>${esc(n.email)}</td><td><small>${esc((n.at||"").slice(0,16).replace("T"," "))}</small></td></tr>`).join("");}
+function renderUsers(){if(!USERS.length){$("rowsUsers").innerHTML='<tr><td colspan="3" style="color:#a79fc4">No signed-in customers yet.</td></tr>';return;}
+  $("rowsUsers").innerHTML=USERS.map(u=>`<tr><td>${esc(u.name||"—")}</td><td>${esc(u.email)}</td><td><small>${esc((u.at||"").slice(0,16).replace("T"," "))}</small></td></tr>`).join("");}
+function autoRef(){const on=$("auto").checked;if(TIMER){clearInterval(TIMER);TIMER=null;}if(on)TIMER=setInterval(()=>{if(TOK)load(false);},20000);}
+autoRef();
+</script>
+</body>
+</html>
