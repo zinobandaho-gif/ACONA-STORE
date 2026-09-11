@@ -1,0 +1,19 @@
+# Render.com deploy (free): New → Blueprint → select this repo.
+# Then set the env vars below in the Render dashboard.
+services:
+  - type: web
+    name: acona-store
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install || true
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false

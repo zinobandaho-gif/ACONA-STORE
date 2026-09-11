@@ -1,0 +1,12 @@
+{
+  "name": "acona-store-backend",
+  "version": "1.0.0",
+  "description": "ACONA STORE backend — zero dependencies, Node.js built-ins only",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

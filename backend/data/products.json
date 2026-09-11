@@ -1,0 +1,546 @@
+[
+  {
+    "id": 1,
+    "cat": "phones",
+    "price": 449,
+    "old": 549,
+    "rate": 4.5,
+    "pop": 99,
+    "en": {
+      "n": "iPhone 11 Pro Max 256GB",
+      "s": "6.5-inch display · A13 Bionic · Triple camera"
+    },
+    "fr": {
+      "n": "iPhone 11 Pro Max 256Go",
+      "s": "Écran 6,5 pouces · A13 Bionic · Triple caméra"
+    }
+  },
+  {
+    "id": 2,
+    "cat": "phones",
+    "price": 549,
+    "old": 649,
+    "rate": 4.6,
+    "pop": 98,
+    "en": {
+      "n": "iPhone 12 Pro Max 256GB",
+      "s": "6.7-inch display · A14 Bionic · Triple camera"
+    },
+    "fr": {
+      "n": "iPhone 12 Pro Max 256Go",
+      "s": "Écran 6,7 pouces · A14 Bionic · Triple caméra"
+    }
+  },
+  {
+    "id": 3,
+    "cat": "phones",
+    "price": 599,
+    "old": 699,
+    "rate": 4.7,
+    "pop": 97,
+    "en": {
+      "n": "iPhone 13 128GB",
+      "s": "6.1-inch display · A15 Bionic · Dual camera"
+    },
+    "fr": {
+      "n": "iPhone 13 128Go",
+      "s": "Écran 6,1 pouces · A15 Bionic · Double caméra"
+    }
+  },
+  {
+    "id": 4,
+    "cat": "phones",
+    "price": 649,
+    "old": 749,
+    "rate": 4.6,
+    "pop": 96,
+    "en": {
+      "n": "iPhone 14 128GB",
+      "s": "6.1-inch display · A15 Bionic · Dual camera"
+    },
+    "fr": {
+      "n": "iPhone 14 128Go",
+      "s": "Écran 6,1 pouces · A15 Bionic · Double caméra"
+    }
+  },
+  {
+    "id": 5,
+    "cat": "phones",
+    "price": 699,
+    "old": 799,
+    "rate": 4.7,
+    "pop": 95,
+    "en": {
+      "n": "iPhone 15 128GB",
+      "s": "6.1-inch display · A16 Bionic · 48MP camera"
+    },
+    "fr": {
+      "n": "iPhone 15 128Go",
+      "s": "Écran 6,1 pouces · A16 Bionic · Caméra 48MP"
+    }
+  },
+  {
+    "id": 6,
+    "cat": "phones",
+    "price": 1199,
+    "old": 1299,
+    "rate": 4.9,
+    "pop": 94,
+    "en": {
+      "n": "iPhone 16 Pro Max 256GB",
+      "s": "6.9-inch display · A18 Pro · Triple camera"
+    },
+    "fr": {
+      "n": "iPhone 16 Pro Max 256Go",
+      "s": "Écran 6,9 pouces · A18 Pro · Triple caméra"
+    }
+  },
+  {
+    "id": 7,
+    "cat": "phones",
+    "price": 1099,
+    "old": 1199,
+    "rate": 4.9,
+    "pop": 93,
+    "en": {
+      "n": "iPhone 17 Pro 256GB",
+      "s": "6.3-inch display · A19 Pro · Triple camera"
+    },
+    "fr": {
+      "n": "iPhone 17 Pro 256Go",
+      "s": "Écran 6,3 pouces · A19 Pro · Triple caméra"
+    }
+  },
+  {
+    "id": 8,
+    "cat": "phones",
+    "price": 1299,
+    "old": 1399,
+    "rate": 5,
+    "pop": 92,
+    "en": {
+      "n": "iPhone 18 Pro Max 256GB",
+      "s": "6.9-inch display · A20 Pro · Triple camera"
+    },
+    "fr": {
+      "n": "iPhone 18 Pro Max 256Go",
+      "s": "Écran 6,9 pouces · A20 Pro · Triple caméra"
+    }
+  },
+  {
+    "id": 11,
+    "cat": "laptops",
+    "price": 249,
+    "old": 329,
+    "rate": 4.2,
+    "pop": 89,
+    "en": {
+      "n": "MacBook Air 13\" Intel i5",
+      "s": "13.3-inch · Intel i5 · 8GB RAM · 128GB SSD"
+    },
+    "fr": {
+      "n": "MacBook Air 13\" Intel i5",
+      "s": "13,3 pouces · Intel i5 · 8Go RAM · SSD 128Go"
+    }
+  },
+  {
+    "id": 12,
+    "cat": "laptops",
+    "price": 849,
+    "old": 1099,
+    "rate": 4.6,
+    "pop": 88,
+    "en": {
+      "n": "MacBook Pro 13\" M2",
+      "s": "13.3-inch · M2 chip · 8GB RAM · 256GB SSD"
+    },
+    "fr": {
+      "n": "MacBook Pro 13\" M2",
+      "s": "13,3 pouces · Puce M2 · 8Go RAM · SSD 256Go"
+    }
+  },
+  {
+    "id": 13,
+    "cat": "laptops",
+    "price": 1649,
+    "old": 1999,
+    "rate": 4.9,
+    "pop": 87,
+    "en": {
+      "n": "MacBook Pro 14\" M3 Pro",
+      "s": "14-inch · M3 Pro · 18GB RAM · 512GB SSD"
+    },
+    "fr": {
+      "n": "MacBook Pro 14\" M3 Pro",
+      "s": "14 pouces · M3 Pro · 18Go RAM · SSD 512Go"
+    }
+  },
+  {
+    "id": 14,
+    "cat": "laptops",
+    "price": 899,
+    "old": 1099,
+    "rate": 4.8,
+    "pop": 86,
+    "en": {
+      "n": "MacBook Air 13\" M3",
+      "s": "13.6-inch · M3 chip · 8GB RAM · 256GB SSD"
+    },
+    "fr": {
+      "n": "MacBook Air 13\" M3",
+      "s": "13,6 pouces · Puce M3 · 8Go RAM · SSD 256Go"
+    }
+  },
+  {
+    "id": 15,
+    "cat": "laptops",
+    "price": 549,
+    "old": 599,
+    "rate": 4.8,
+    "pop": 85,
+    "en": {
+      "n": "Mac mini M4",
+      "s": "M4 chip · 10-core CPU/GPU · 16GB RAM · 256GB SSD"
+    },
+    "fr": {
+      "n": "Mac mini M4",
+      "s": "Puce M4 · CPU/GPU 10 cœurs · 16Go RAM · SSD 256Go"
+    }
+  },
+  {
+    "id": 21,
+    "cat": "headset",
+    "price": 349,
+    "old": 399,
+    "rate": 4.9,
+    "pop": 96,
+    "en": {
+      "n": "SteelSeries Arctis Nova Pro Wireless",
+      "s": "Wireless · ANC · Hot-swap batteries"
+    },
+    "fr": {
+      "n": "SteelSeries Arctis Nova Pro Wireless",
+      "s": "Sans fil · ANC · Batteries amovibles"
+    }
+  },
+  {
+    "id": 22,
+    "cat": "headset",
+    "price": 249,
+    "old": 299,
+    "rate": 4.8,
+    "pop": 93,
+    "en": {
+      "n": "Razer BlackShark V3 Pro for Xbox",
+      "s": "Wireless · Xbox/PC · 70h battery"
+    },
+    "fr": {
+      "n": "Razer BlackShark V3 Pro pour Xbox",
+      "s": "Sans fil · Xbox/PC · 70h"
+    }
+  },
+  {
+    "id": 23,
+    "cat": "headset",
+    "price": 129,
+    "old": 149,
+    "rate": 4.7,
+    "pop": 90,
+    "en": {
+      "n": "SteelSeries Arctis Nova 5X Wireless",
+      "s": "Wireless · 60h battery · Multi-platform"
+    },
+    "fr": {
+      "n": "SteelSeries Arctis Nova 5X Wireless",
+      "s": "Sans fil · 60h · Multi-plateforme"
+    }
+  },
+  {
+    "id": 24,
+    "cat": "headset",
+    "price": 129,
+    "old": 159,
+    "rate": 4.6,
+    "pop": 88,
+    "en": {
+      "n": "Spirit of Gamer XPERT-H900",
+      "s": "Wireless 2.4GHz · 7.1 surround · 20h battery"
+    },
+    "fr": {
+      "n": "Spirit of Gamer XPERT-H900",
+      "s": "Sans fil 2,4GHz · 7.1 surround · 20h"
+    }
+  },
+  {
+    "id": 25,
+    "cat": "headset",
+    "price": 35,
+    "old": 49,
+    "rate": 4.4,
+    "pop": 82,
+    "en": {
+      "n": "OCG TA 5000 RGB Wireless",
+      "s": "Wireless · RGB · Noise-cancelling mic"
+    },
+    "fr": {
+      "n": "OCG TA 5000 RGB Sans fil",
+      "s": "Sans fil · RGB · Micro anti-bruit"
+    }
+  },
+  {
+    "id": 26,
+    "cat": "headset",
+    "price": 129,
+    "old": 149,
+    "rate": 4.5,
+    "pop": 84,
+    "en": {
+      "n": "Astro A20 X Wireless",
+      "s": "Wireless LIGHTSPEED · Bluetooth · 15h battery"
+    },
+    "fr": {
+      "n": "Astro A20 X Sans fil",
+      "s": "Sans fil LIGHTSPEED · Bluetooth · 15h"
+    }
+  },
+  {
+    "id": 31,
+    "cat": "wear",
+    "price": 649,
+    "old": 799,
+    "rate": 4.8,
+    "pop": 84,
+    "en": {
+      "n": "Apple Watch Ultra 2 49mm",
+      "s": "49mm · Titanium · GPS + Cellular · 36h battery"
+    },
+    "fr": {
+      "n": "Apple Watch Ultra 2 49mm",
+      "s": "49 mm · Titane · GPS + Cellular · 36h"
+    }
+  },
+  {
+    "id": 32,
+    "cat": "wear",
+    "price": 329,
+    "old": 429,
+    "rate": 4.7,
+    "pop": 83,
+    "en": {
+      "n": "Apple Watch Series 10 46mm",
+      "s": "46mm · S10 chip · Always-On · 18h battery"
+    },
+    "fr": {
+      "n": "Apple Watch Series 10 46mm",
+      "s": "46 mm · Puce S10 · Always-On · 18h"
+    }
+  },
+  {
+    "id": 33,
+    "cat": "wear",
+    "price": 229,
+    "old": 249,
+    "rate": 4.6,
+    "pop": 82,
+    "en": {
+      "n": "Apple Watch SE 3 40mm",
+      "s": "40mm · S10 chip · GPS · 18h battery"
+    },
+    "fr": {
+      "n": "Apple Watch SE 3 40mm",
+      "s": "40 mm · Puce S10 · GPS · 18h"
+    }
+  },
+  {
+    "id": 34,
+    "cat": "wear",
+    "price": 379,
+    "old": 399,
+    "rate": 4.8,
+    "pop": 81,
+    "en": {
+      "n": "Apple Watch Series 11 46mm",
+      "s": "46mm · S11 chip · 5G · 24h battery"
+    },
+    "fr": {
+      "n": "Apple Watch Series 11 46mm",
+      "s": "46 mm · Puce S11 · 5G · 24h"
+    }
+  },
+  {
+    "id": 35,
+    "cat": "wear",
+    "price": 749,
+    "old": 799,
+    "rate": 4.9,
+    "pop": 80,
+    "en": {
+      "n": "Apple Watch Ultra 3 49mm",
+      "s": "49mm · S11 chip · Satellite · 42h battery"
+    },
+    "fr": {
+      "n": "Apple Watch Ultra 3 49mm",
+      "s": "49 mm · Puce S11 · Satellite · 42h"
+    }
+  },
+  {
+    "id": 36,
+    "cat": "wear",
+    "price": 429,
+    "old": 479,
+    "rate": 4.9,
+    "pop": 79,
+    "en": {
+      "n": "Apple Watch Series 12 46mm",
+      "s": "46mm · S12 chip · 5G · 24h battery"
+    },
+    "fr": {
+      "n": "Apple Watch Series 12 46mm",
+      "s": "46 mm · Puce S12 · 5G · 24h"
+    }
+  },
+  {
+    "id": 37,
+    "cat": "wear",
+    "price": 799,
+    "old": 899,
+    "rate": 5,
+    "pop": 78,
+    "en": {
+      "n": "Apple Watch Ultra 4 49mm",
+      "s": "49mm · S12 chip · Satellite · 48h battery"
+    },
+    "fr": {
+      "n": "Apple Watch Ultra 4 49mm",
+      "s": "49 mm · Puce S12 · Satellite · 48h"
+    }
+  },
+  {
+    "id": 41,
+    "cat": "acc",
+    "price": 39,
+    "old": 59,
+    "rate": 4.5,
+    "pop": 75,
+    "en": {
+      "n": "65W GaN Fast Charger",
+      "s": "2x USB-C · Overheat protection"
+    },
+    "fr": {
+      "n": "Chargeur rapide 65W GaN",
+      "s": "2x USB-C · Protection surchauffe"
+    }
+  },
+  {
+    "id": 42,
+    "cat": "acc",
+    "price": 45,
+    "old": 65,
+    "rate": 4.4,
+    "pop": 77,
+    "en": {
+      "n": "Power Bank 20000mAh",
+      "s": "22.5W fast charge · Digital display"
+    },
+    "fr": {
+      "n": "Batterie externe 20000mAh",
+      "s": "Charge 22,5W · Écran digital"
+    }
+  },
+  {
+    "id": 43,
+    "cat": "acc",
+    "price": 49,
+    "old": 69,
+    "rate": 4.6,
+    "pop": 78,
+    "en": {
+      "n": "USB-C Hub 7-in-1",
+      "s": "HDMI 4K · 100W PD · SD slot"
+    },
+    "fr": {
+      "n": "Hub USB-C 7-en-1",
+      "s": "HDMI 4K · 100W PD · Slot SD"
+    }
+  },
+  {
+    "id": 44,
+    "cat": "acc",
+    "price": 89,
+    "old": 119,
+    "rate": 4.6,
+    "pop": 80,
+    "en": {
+      "n": "RGB Mechanical Keyboard",
+      "s": "Hot-swap · Blue switches"
+    },
+    "fr": {
+      "n": "Clavier mécanique RGB",
+      "s": "Hot-swap · Switches bleus"
+    }
+  },
+  {
+    "id": 45,
+    "cat": "acc",
+    "price": 99,
+    "old": 129,
+    "rate": 4.8,
+    "pop": 88,
+    "en": {
+      "n": "Logitech MX Master 3S",
+      "s": "8K sensor · Quiet clicks · USB-C"
+    },
+    "fr": {
+      "n": "Logitech MX Master 3S",
+      "s": "Capteur 8K · Clics silencieux · USB-C"
+    }
+  },
+  {
+    "id": 46,
+    "cat": "acc",
+    "price": 119,
+    "old": 149,
+    "rate": 4.7,
+    "pop": 84,
+    "en": {
+      "n": "External SSD 1TB",
+      "s": "1050MB/s · USB 3.2 · Shockproof"
+    },
+    "fr": {
+      "n": "SSD externe 1To",
+      "s": "1050Mo/s · USB 3.2 · Antichoc"
+    }
+  },
+  {
+    "id": 47,
+    "cat": "acc",
+    "price": 129,
+    "old": 169,
+    "rate": 4.5,
+    "pop": 79,
+    "en": {
+      "n": "4K Webcam + Mic",
+      "s": "Autofocus · Noise-reduction mic"
+    },
+    "fr": {
+      "n": "Webcam 4K + Micro",
+      "s": "Autofocus · Micro anti-bruit"
+    }
+  },
+  {
+    "id": 48,
+    "cat": "acc",
+    "price": 25,
+    "old": 39,
+    "rate": 4.4,
+    "pop": 74,
+    "en": {
+      "n": "XL RGB Mouse Pad",
+      "s": "80x30cm · 14 light modes · USB"
+    },
+    "fr": {
+      "n": "Tapis de souris XL RGB",
+      "s": "80x30cm · 14 modes · USB"
+    }
+  }
+]
