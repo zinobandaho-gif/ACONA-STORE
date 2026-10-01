@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACONA STORE | Admin Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: linear-gradient(180deg, #07070d, #150f2e 60%, #0a0614);
+        background-attachment: fixed;
+        color: #f4f2ff;
+        min-height: 100vh;
+        padding: 1.2rem;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #e9d5ff, #8b5cf6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        color: #a79fc4;
+        font-size: 0.88rem;
+        margin: 0.2rem 0 1rem;
+      }
+      .bar {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      .bar input,
+      .bar select {
+        flex: 1;
+        min-width: 160px;
+        background: #151024;
+        border: 1px solid rgba(139, 92, 246, 0.35);
+        color: #fff;
+        border-radius: 10px;
+        padding: 0.65rem 0.9rem;
+        font-family: inherit;
+      }
+      .bar button {
+        background: linear-gradient(135deg, #0a0614, #5b21b6);
+        color: #fff;
+        border: 1px solid rgba(196, 181, 253, 0.4);
+        border-radius: 10px;
+        padding: 0.65rem 1.2rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      .tabs button {
+        background: #151024;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #a79fc4;
+        border-radius: 999px;
+        padding: 0.55rem 1.2rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .tabs button.active {
+        background: linear-gradient(135deg, #0a0614, #5b21b6);
+        color: #fff;
+        border-color: #8b5cf6;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+        margin-bottom: 1.2rem;
+      }
+      .stat {
+        background: #151024;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 14px;
+        padding: 1rem 1.2rem;
+      }
+      .stat small {
+        color: #a79fc4;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .stat b {
+        display: block;
+        font-size: 1.5rem;
+        margin-top: 0.2rem;
+      }
+      .stat.gold b {
+        color: #f0d47a;
+      }
+      .panel {
+        background: #151024;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 14px;
+        padding: 1.1rem 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+      .panel h3 {
+        font-size: 0.95rem;
+        margin-bottom: 0.7rem;
+        color: #c4b5fd;
+      }
+      .chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        height: 120px;
+      }
+      .chart div {
+        flex: 1;
+        background: linear-gradient(180deg, #8b5cf6, #3b1470);
+        border-radius: 6px 6px 0 0;
+        min-height: 4px;
+        position: relative;
+      }
+      .chart div span {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.62rem;
+        color: #a79fc4;
+        white-space: nowrap;
+        display: none;
+      }
+      .chart div:hover span {
+        display: block;
+      }
+      table {
+        width: 100%;
+        background: #151024;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 14px;
+        overflow: hidden;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+      th,
+      td {
+        padding: 0.65rem 0.7rem;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #0a0614;
+        color: #c4b5fd;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      td small {
+        color: #a79fc4;
+      }
+      .st {
+        font-weight: 800;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        background: #2a2440;
+        color: #ddd0ff;
+      }
+      .st.pending {
+        background: #4a3a10;
+        color: #f0d47a;
+      }
+      .st.confirmed {
+        background: #1e3a5f;
+        color: #7dd3fc;
+      }
+      .st.shipped {
+        background: #3b2a6e;
+        color: #c4b5fd;
+      }
+      .st.delivered {
+        background: #0f3d26;
+        color: #4ade80;
+      }
+      .st.cancelled {
+        background: #4a1620;
+        color: #f87171;
+      }
+      select.st-sel,
+      input.mini {
+        background: #0a0614;
+        color: #fff;
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        border-radius: 8px;
+        padding: 0.35rem 0.5rem;
+        font-family: inherit;
+        margin-top: 0.3rem;
+      }
+      input.mini {
+        width: 90px;
+      }
+      .err {
+        background: #4a1620;
+        border: 1px solid #f87171;
+        color: #fecaca;
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      .ok-note {
+        color: #4ade80;
+        font-size: 0.85rem;
+        margin-bottom: 0.6rem;
+        display: none;
+      }
+      .rowbtns {
+        display: flex;
+        gap: 0.4rem;
+        margin-top: 0.3rem;
+      }
+      .rowbtns button {
+        background: #0a0614;
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.3rem 0.7rem;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .rowbtns button.danger {
+        border-color: #f87171;
+        color: #f87171;
+      }
+      @media (max-width: 760px) {
+        .stats {
+          grid-template-columns: 1fr 1fr;
+        }
+        table {
+          font-size: 0.75rem;
+        }
+        th:nth-child(4),
+        td:nth-child(4) {
+          display: none;
+        }
+      }
+      :root {
+        --ruby: #ff2d55;
+        --mag: #d61f8f;
+        --vio: #7c3aed;
+        --gold: #ffc861;
+        --edge: rgba(255, 255, 255, 0.13);
+        --grad: linear-gradient(
+          115deg,
+          #ff2d55,
+          #d61f8f 38%,
+          #7c3aed 68%,
+          #ffc861
+        );
+      }
+      body {
+        font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+        background:
+          radial-gradient(
+            1000px 600px at 90% -8%,
+            rgba(124, 58, 237, 0.35),
+            transparent 62%
+          ),
+          radial-gradient(
+            800px 520px at 2% 20%,
+            rgba(255, 45, 85, 0.26),
+            transparent 62%
+          ),
+          radial-gradient(
+            800px 560px at 50% 115%,
+            rgba(214, 31, 143, 0.26),
+            transparent 62%
+          ),
+          linear-gradient(180deg, #07040c, #0d0716 50%, #06030a);
+        background-attachment: fixed;
+        min-height: 100vh;
+        padding: 1.4rem;
+      }
+      body:before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+          );
+        background-size: 46px 46px;
+        -webkit-mask-image: radial-gradient(
+          ellipse at 50% 30%,
+          #000,
+          transparent 75%
+        );
+        mask-image: radial-gradient(ellipse at 50% 30%, #000, transparent 75%);
+      }
+      .wrap {
+        position: relative;
+      }
+      h1 {
+        font-family: "Unbounded", sans-serif;
+        font-size: 1.45rem;
+        letter-spacing: -0.02em;
+        background: linear-gradient(
+          100deg,
+          #fff,
+          #ffd6e0 30%,
+          #ff5d8a 55%,
+          #ffc861 80%,
+          #fff
+        );
+        background-size: 240% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: flow 9s linear infinite;
+      }
+      @keyframes flow {
+        to {
+          background-position: 240% 50%;
+        }
+      }
+      .sub:before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 12px #4ade80;
+        margin-right: 0.5rem;
+        animation: pulse 1.8s infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.35;
+          transform: scale(0.8);
+        }
+      }
+      .bar input,
+      .bar select,
+      select.st-sel,
+      input.mini {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--edge);
+        color: #fff;
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+      }
+      .bar input:focus,
+      .bar select:focus,
+      input.mini:focus {
+        outline: 0;
+        border-color: #ff5d8a;
+        box-shadow: 0 0 0 4px rgba(255, 45, 85, 0.22);
+      }
+      .bar button,
+      .rowbtns button {
+        background: var(--grad);
+        background-size: 220% 100%;
+        border: 0;
+        color: #fff;
+        font-weight: 800;
+        box-shadow: 0 8px 24px rgba(214, 31, 143, 0.4);
+        transition:
+          background-position 0.6s,
+          transform 0.25s;
+      }
+      .bar button:hover,
+      .rowbtns button:hover {
+        background-position: 100% 50%;
+        transform: translateY(-2px);
+      }
+      .rowbtns button.danger {
+        background: rgba(255, 45, 85, 0.15);
+        border: 1px solid #ff2d55;
+        color: #ff8da5;
+        box-shadow: none;
+      }
+      .tabs button {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--edge);
+        color: #cdbfe6;
+        transition: 0.25s;
+      }
+      .tabs button:hover {
+        color: #fff;
+        transform: translateY(-2px);
+      }
+      .tabs button.active {
+        background: var(--grad);
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 8px 26px rgba(214, 31, 143, 0.5);
+      }
+      .stat,
+      .panel,
+      table {
+        background: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.09),
+          rgba(255, 255, 255, 0.025)
+        );
+        border: 1px solid var(--edge);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+      }
+      .stat {
+        position: relative;
+        overflow: hidden;
+        transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+      .stat:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 3px;
+        background: var(--grad);
+      }
+      .stat:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 60px rgba(214, 31, 143, 0.3);
+      }
+      .stat:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .stat:nth-child(3) {
+        animation-delay: 0.16s;
+      }
+      .stat:nth-child(4) {
+        animation-delay: 0.24s;
+      }
+      .stat:nth-child(5) {
+        animation-delay: 0.32s;
+      }
+      .stat:nth-child(6) {
+        animation-delay: 0.4s;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+      }
+      .stat b {
+        font-family: "Unbounded", sans-serif;
+        font-size: 1.35rem;
+        background: linear-gradient(90deg, #fff, #ffd6e0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .stat.gold b {
+        background: linear-gradient(90deg, #ffc861, #ff5d8a);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      .panel h3 {
+        color: #ffd6e0;
+      }
+      .chart div {
+        background: linear-gradient(180deg, #ff5d8a, #d61f8f 45%, #4c1d95);
+        box-shadow: 0 0 18px rgba(255, 45, 85, 0.35);
+        transform-origin: bottom;
+        animation: grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+      .chart div:nth-child(2) {
+        animation-delay: 0.05s;
+      }
+      .chart div:nth-child(3) {
+        animation-delay: 0.1s;
+      }
+      .chart div:nth-child(4) {
+        animation-delay: 0.15s;
+      }
+      .chart div:nth-child(5) {
+        animation-delay: 0.2s;
+      }
+      .chart div:nth-child(6) {
+        animation-delay: 0.25s;
+      }
+      .chart div:nth-child(7) {
+        animation-delay: 0.3s;
+      }
+      .chart div:nth-child(8) {
+        animation-delay: 0.35s;
+      }
+      .chart div:nth-child(9) {
+        animation-delay: 0.4s;
+      }
+      .chart div:nth-child(10) {
+        animation-delay: 0.45s;
+      }
+      .chart div:nth-child(11) {
+        animation-delay: 0.5s;
+      }
+      .chart div:nth-child(12) {
+        animation-delay: 0.55s;
+      }
+      .chart div:nth-child(13) {
+        animation-delay: 0.6s;
+      }
+      .chart div:nth-child(14) {
+        animation-delay: 0.65s;
+      }
+      @keyframes grow {
+        from {
+          transform: scaleY(0);
+        }
+      }
+      th {
+        background: rgba(124, 58, 237, 0.25);
+        color: #ffd6e0;
+      }
+      tbody tr {
+        transition: background 0.25s;
+        animation: rise 0.5s ease backwards;
+      }
+      tbody tr:hover {
+        background: rgba(255, 45, 85, 0.09);
+      }
+      .err {
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10001;
+        background: rgba(74, 22, 32, 0.92);
+        backdrop-filter: blur(10px);
+      }
+      .ok-note {
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10001;
+        background: rgba(10, 40, 25, 0.92);
+        border: 1px solid #4ade80;
+        padding: 0.6rem 1.1rem;
+        border-radius: 999px;
+        font-weight: 800;
+      }
+      #dash.enter {
+        animation: dashIn 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+      @keyframes dashIn {
+        from {
+          opacity: 0;
+          transform: translateY(40px) scale(0.97);
+          filter: blur(8px);
+        }
+      }
+      /* ===== VAULT ===== */
+      #vault {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(
+            700px 500px at 20% 15%,
+            rgba(255, 45, 85, 0.4),
+            transparent 62%
+          ),
+          radial-gradient(
+            800px 560px at 85% 85%,
+            rgba(124, 58, 237, 0.5),
+            transparent 62%
+          ),
+          #07040c;
+        transition:
+          opacity 0.9s 0.4s,
+          transform 0.9s 0.4s cubic-bezier(0.7, 0, 0.3, 1),
+          visibility 0.9s 0.4s;
+      }
+      #vault:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 52px 52px;
+        -webkit-mask-image: radial-gradient(
+          circle at 50% 50%,
+          #000,
+          transparent 70%
+        );
+        mask-image: radial-gradient(circle at 50% 50%, #000, transparent 70%);
+        animation: gridMove 12s linear infinite;
+      }
+      @keyframes gridMove {
+        to {
+          background-position: 52px 52px;
+        }
+      }
+      #vault:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 140px;
+        top: -140px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(255, 45, 85, 0.14),
+          transparent
+        );
+        animation: scan 5s linear infinite;
+      }
+      @keyframes scan {
+        to {
+          top: 100%;
+        }
+      }
+      #vault.open {
+        opacity: 0;
+        transform: scale(1.25);
+        visibility: hidden;
+      }
+      #vault.gone {
+        display: none;
+      }
+      .v-card {
+        position: relative;
+        z-index: 2;
+        width: min(400px, 92vw);
+        text-align: center;
+        padding: 2.2rem 1.6rem 1.8rem;
+        border-radius: 26px;
+        background: rgba(18, 9, 30, 0.72);
+        border: 1px solid var(--edge);
+        -webkit-backdrop-filter: blur(22px);
+        backdrop-filter: blur(22px);
+        box-shadow:
+          0 40px 100px rgba(124, 58, 237, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      }
+      .v-card.deny {
+        animation: shake 0.55s;
+      }
+      @keyframes shake {
+        20%,
+        60% {
+          transform: translateX(-14px);
+        }
+        40%,
+        80% {
+          transform: translateX(14px);
+        }
+      }
+      .v-lock {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 1.2rem;
+        display: grid;
+        place-items: center;
+      }
+      .ring {
+        position: absolute;
+        border-radius: 50%;
+        inset: 0;
+        -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%);
+        mask: radial-gradient(circle, transparent 62%, #000 63%);
+        background: conic-gradient(
+          from 0deg,
+          transparent 0 55%,
+          #ff2d55,
+          #d61f8f,
+          #7c3aed,
+          transparent
+        );
+        animation: spin 3.2s linear infinite;
+      }
+      .ring.r2 {
+        inset: 12px;
+        animation-duration: 5s;
+        animation-direction: reverse;
+        opacity: 0.75;
+      }
+      .ring.r3 {
+        inset: 24px;
+        animation-duration: 8s;
+        opacity: 0.5;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .v-lock svg {
+        width: 64px;
+        height: 64px;
+        position: relative;
+        filter: drop-shadow(0 0 16px rgba(255, 45, 85, 0.7));
+        overflow: visible;
+      }
+      .v-lock svg * {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 3.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .v-lock svg rect {
+        fill: rgba(255, 45, 85, 0.22);
+        stroke: #ff5d8a;
+      }
+      #shackle {
+        transition: transform 0.7s cubic-bezier(0.3, 1.6, 0.5, 1);
+        transform-origin: 44px 28px;
+        animation: jiggle 3s ease-in-out infinite;
+      }
+      @keyframes jiggle {
+        0%,
+        90%,
+        100% {
+          transform: rotate(0);
+        }
+        94% {
+          transform: rotate(-3deg);
+        }
+        97% {
+          transform: rotate(3deg);
+        }
+      }
+      #vault.open #shackle {
+        animation: none;
+        transform: translateY(-9px) rotate(-32deg);
+      }
+      #vault.open .ring {
+        animation-duration: 0.5s;
+        filter: hue-rotate(200deg) brightness(1.4);
+      }
+      #vault.open .v-lock svg rect {
+        stroke: #4ade80;
+        fill: rgba(74, 222, 128, 0.22);
+      }
+      .v-card.deny .ring {
+        filter: brightness(1.6) saturate(2);
+        animation-duration: 0.6s;
+      }
+      .v-card h2 {
+        font-family: "Unbounded", sans-serif;
+        font-size: 1.25rem;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.4rem;
+        background: linear-gradient(90deg, #fff, #ffc861, #ff5d8a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      #vMsg {
+        color: #b9a9d6;
+        font-size: 0.85rem;
+        margin-bottom: 1.1rem;
+        min-height: 1.3em;
+      }
+      .v-card.deny #vMsg {
+        color: #ff8da5;
+      }
+      .v-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .v-form span {
+        display: flex !important;
+        gap: 0.4rem;
+      }
+      .v-form input {
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+        letter-spacing: 0.2em;
+        padding: 0.8rem !important;
+      }
+      .v-form button {
+        padding: 0.8rem 1rem;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01s !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Unbounded:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="vault">
+      <div class="v-card" id="vCard">
+        <div class="v-lock">
+          <div class="ring"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <svg viewBox="0 0 64 64">
+            <g id="shackle"><path d="M20 28V20a12 12 0 0 1 24 0v8" /></g>
+            <rect x="12" y="28" width="40" height="28" rx="7" />
+            <circle cx="32" cy="41" r="3.6" />
+            <path d="M32 44.6V50" />
+          </svg>
+        </div>
+        <h2>ACONA VAULT</h2>
+        <p id="vMsg">Restricted area · enter admin token</p>
+        <div class="v-form">
+          <span
+            style="
+              flex: 1;
+              min-width: 160px;
+              display: flex;
+              gap: 0.4rem;
+              align-items: stretch;
+            "
+            ><input
+              id="tok"
+              type="password"
+              placeholder="ADMIN_TOKEN"
+              autocomplete="off"
+              style="flex: 1; min-width: 0"
+            /><button
+              id="eyeBtn"
+              onclick="toggleTok()"
+              title="Show / hide token"
+              aria-label="Show or hide token"
+              style="flex: 0 0 auto; padding: 0.65rem 0.9rem"
+            >
+              👁
+            </button></span
+          ><button
+            onclick="connect()"
+            style="border-radius: 10px; cursor: pointer"
+          >
+            Unlock
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <h1>ACONA STORE — Admin</h1>
+      <p class="sub">
+        Private dashboard · orders, revenue, products, coupons, customers ·
+        token stays in memory only
+      </p>
+      <div class="err" id="err"></div>
+      <div class="ok-note" id="okNote"></div>
+      <div class="bar">
+        <button onclick="load(true)">Refresh</button>
+        <button onclick="lockVault()" title="Lock dashboard">🔒 Lock</button>
+        <label
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: #a79fc4;
+          "
+          ><input type="checkbox" id="auto" checked onchange="autoRef()" /> auto
+          20s</label
+        >
+      </div>
+      <div id="dash" style="display: none">
+        <div class="stats">
+          <div class="stat gold"><small>Revenue</small><b id="sRev">$0</b></div>
+          <div class="stat"><small>Orders</small><b id="sOrd">0</b></div>
+          <div class="stat"><small>Avg order</small><b id="sAvg">$0</b></div>
+          <div class="stat"><small>Pending</small><b id="sPen">0</b></div>
+          <div class="stat">
+            <small>Newsletter subs</small><b id="sNews">0</b>
+          </div>
+          <div class="stat">
+            <small>Customers (sessions)</small><b id="sSes">0</b>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Revenue — last 14 days</h3>
+          <div class="chart" id="chart"></div>
+        </div>
+        <div class="panel">
+          <h3>Top products</h3>
+          <div id="topList" style="font-size: 0.85rem; color: #c4b5fd">—</div>
+        </div>
+        <div class="tabs">
+          <button id="tabO" class="active" onclick="showTab('orders')">
+            Orders
+          </button>
+          <button id="tabP" onclick="showTab('products')">Products</button>
+          <button id="tabC" onclick="showTab('coupons')">Coupons</button>
+          <button id="tabN" onclick="showTab('news')">Newsletter</button>
+          <button id="tabU" onclick="showTab('users')">Customers</button>
+        </div>
+        <div class="bar" id="filterBar">
+          <input
+            id="q"
+            placeholder="Search number / name / phone..."
+            oninput="renderOrders()"
+          />
+          <select id="fSt" onchange="renderOrders()">
+            <option value="">All statuses</option>
+            <option>pending</option>
+            <option>confirmed</option>
+            <option>shipped</option>
+            <option>delivered</option>
+            <option>cancelled</option>
+          </select>
+        </div>
+        <table id="tblOrders">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Pay</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <table id="tblProducts" style="display: none">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Old</th>
+              <th>Rate</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rowsPro"></tbody>
+        </table>
+        <div id="paneCoupons" style="display: none">
+          <div class="bar">
+            <input
+              id="cCode"
+              placeholder="CODE (e.g. SUMMER20)"
+              style="flex: 1"
+            />
+            <input
+              id="cPct"
+              type="number"
+              min="1"
+              max="90"
+              value="10"
+              style="flex: 0 0 90px"
+            />
+            <input
+              id="cMin"
+              type="number"
+              min="0"
+              value="0"
+              style="flex: 0 0 110px"
+              title="min total"
+            />
+            <button onclick="addCoupon()">Add coupon</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Off</th>
+                <th>Min</th>
+                <th>Active</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="rowsCou"></tbody>
+          </table>
+        </div>
+        <table id="tblNews" style="display: none">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Subscribed at</th>
+            </tr>
+          </thead>
+          <tbody id="rowsNews"></tbody>
+        </table>
+        <table id="tblUsers" style="display: none">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Since</th>
+            </tr>
+          </thead>
+          <tbody id="rowsUsers"></tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let TOK = "",
+        ORDERS = [],
+        NEWS = [],
+        USERS = [],
+        COUPONS = [],
+        PRODUCTS = [],
+        ST = null,
+        TAB = "orders",
+        TIMER = null;
+      function esc(s) {
+        return String(s == null ? "" : s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+      function err(m) {
+        const e = $("err");
+        if (!m) {
+          e.style.display = "none";
+          return;
+        }
+        e.textContent = m;
+        e.style.display = "block";
+      }
+      function ok(m) {
+        const e = $("okNote");
+        e.textContent = m;
+        e.style.display = "block";
+        setTimeout(() => (e.style.display = "none"), 2200);
+      }
+      async function api(p, opts) {
+        const r = await fetch(
+          p,
+          Object.assign({ headers: { "x-admin-token": TOK } }, opts || {}),
+        );
+        if (r.status === 401) throw new Error("auth");
+        if (!r.ok) {
+          let d = {};
+          try {
+            d = await r.json();
+          } catch (e) {}
+          throw new Error((d && d.error) || "srv" + r.status);
+        }
+        return r.json();
+      }
+      function toggleTok() {
+        const i = $("tok"),
+          b = $("eyeBtn");
+        if (!i) return;
+        const show = i.type === "password";
+        i.type = show ? "text" : "password";
+        if (b) b.textContent = show ? "🙈" : "👁";
+        if (i) i.focus();
+      }
+      async function connect() {
+        TOK = $("tok").value.trim();
+        err("");
+        if (!TOK) {
+          err("Enter ADMIN_TOKEN first.");
+          return;
+        }
+        await load(true);
+      }
+      async function load(manual) {
+        if (!TOK) {
+          if (manual) err("Enter ADMIN_TOKEN first.");
+          return;
+        }
+        try {
+          const [st, orders, news, users, coupons, prods] = await Promise.all([
+            api("/api/admin/stats"),
+            api("/api/admin/orders"),
+            api("/api/admin/newsletter"),
+            api("/api/admin/sessions"),
+            api("/api/admin/coupons"),
+            fetch("/api/products").then((r) => {
+              if (!r.ok) throw new Error("products");
+              return r.json();
+            }),
+          ]);
+          ORDERS = orders;
+          NEWS = news;
+          USERS = users;
+          COUPONS = coupons;
+          PRODUCTS = prods;
+          ST = st;
+          err("");
+          $("dash").style.display = "block";
+          $("dash").classList.add("enter");
+          unlockVault();
+          $("sRev").textContent =
+            "$" + Number(st.revenue || 0).toLocaleString("en-US");
+          $("sOrd").textContent = st.orders || 0;
+          $("sAvg").textContent =
+            "$" + Number(st.avgOrder || 0).toLocaleString("en-US");
+          $("sPen").textContent = (st.byStatus && st.byStatus.pending) || 0;
+          $("sNews").textContent = st.newsletter || 0;
+          $("sSes").textContent = st.sessions || 0;
+          const days = st.revenueByDay || [],
+            mx = Math.max(1, ...days.map((d) => d.revenue));
+          $("chart").innerHTML = days
+            .map(
+              (d) =>
+                `<div style="height:${Math.max(3, Math.round((d.revenue / mx) * 112))}px" title="${d.day}: $${d.revenue} (${d.orders})"><span>${d.day.slice(5)} · $${d.revenue}</span></div>`,
+            )
+            .join("");
+          $("topList").innerHTML =
+            (st.topProducts || [])
+              .map(
+                (t, i) =>
+                  `${i + 1}. ${esc(t.name)} — ${t.qty} sold · $${Number(t.revenue).toLocaleString("en-US")}`,
+              )
+              .join("<br/>") || "No sales yet.";
+          showTab(TAB);
+          if (manual) ok("Connected — data loaded.");
+        } catch (e) {
+          vaultDeny(
+            e.message === "auth"
+              ? "Access denied · wrong token"
+              : "Backend unreachable · run node server.js",
+          );
+          err(
+            e.message === "auth"
+              ? "Wrong token (unauthorized)."
+              : "Cannot reach backend (" +
+                  e.message +
+                  "). Run: node server.js inside backend/",
+          );
+        }
+      }
+      function showTab(t) {
+        TAB = t;
+        ["O", "P", "C", "N", "U"].forEach((k) =>
+          $("tab" + k).classList.remove("active"),
+        );
+        $("tab" + t[0].toUpperCase()).classList.add("active");
+        $("tblOrders").style.display = t === "orders" ? "" : "none";
+        $("tblProducts").style.display = t === "products" ? "" : "none";
+        $("paneCoupons").style.display = t === "coupons" ? "" : "none";
+        $("tblNews").style.display = t === "news" ? "" : "none";
+        $("tblUsers").style.display = t === "users" ? "" : "none";
+        $("filterBar").style.display = t === "orders" ? "" : "none";
+        if (t === "orders") renderOrders();
+        if (t === "products") renderProducts();
+        if (t === "coupons") renderCoupons();
+        if (t === "news") renderNews();
+        if (t === "users") renderUsers();
+      }
+      function renderOrders() {
+        const q = $("q").value.trim().toLowerCase(),
+          fs = $("fSt").value;
+        const list = ORDERS.filter((o) => {
+          if (fs && o.status !== fs) return false;
+          if (
+            q &&
+            !(o.number + " " + o.customer.name + " " + o.customer.phone)
+              .toLowerCase()
+              .includes(q)
+          )
+            return false;
+          return true;
+        });
+        if (!list.length) {
+          $("rows").innerHTML =
+            '<tr><td colspan="6" style="color:#a79fc4">No orders.</td></tr>';
+          return;
+        }
+        $("rows").innerHTML = list
+          .map(
+            (o) =>
+              `<tr><td><b>${esc(o.number)}</b><br/><small>${esc((o.createdAt || "").slice(0, 16).replace("T", " "))}</small></td><td>${esc(o.customer.name)}<br/><small>${esc(o.customer.phone)} · ${esc(o.customer.city)}<br/>${esc(o.customer.address || "")}</small></td><td>${o.lines.map((l) => esc(l.qty + "× " + l.name)).join("<br/>")}${o.coupon ? `<br/><small>coupon ${esc(o.coupon)} (-$${Number(o.discount || 0)})</small>` : ""}</td><td><b>$${Number(o.total).toLocaleString("en-US")}</b><br/><small>ship $${Number(o.shipping || 0)}</small></td><td>${esc(o.payMethod === "card" ? "Card ····" + (o.cardLast4 || "") : "Cash")}</td><td><span class="st ${esc(o.status)}">${esc(o.status)}</span><br/><select class="st-sel" onchange="setStatus('${esc(o.number)}',this.value)">${["pending", "confirmed", "shipped", "delivered", "cancelled"].map((s) => `<option value="${s}"${s === o.status ? " selected" : ""}>${s}</option>`).join("")}</select></td></tr>`,
+          )
+          .join("");
+      }
+      async function setStatus(number, status) {
+        try {
+          await api("/api/admin/orders/" + encodeURIComponent(number), {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "x-admin-token": TOK,
+            },
+            body: JSON.stringify({ status }),
+          });
+          ok(number + " → " + status);
+          load(false);
+        } catch (e) {
+          err("Failed to update: " + e.message);
+        }
+      }
+      function renderProducts() {
+        $("rowsPro").innerHTML = PRODUCTS.map(
+          (p) =>
+            `<tr><td>${p.id}</td><td><b>${esc((p.en || {}).n || "")}</b><br/><small>${esc(p.cat)}</small></td><td>$<input class="mini" style="width:70px" value="${p.price}" id="pp${p.id}" /></td><td>$<input class="mini" style="width:70px" value="${p.old || p.price}" id="po${p.id}" /></td><td><input class="mini" style="width:56px" value="${p.rate || ""}" id="pr${p.id}" /></td><td><div class="rowbtns"><button onclick="saveProduct(${p.id})">Save</button><button class="danger" onclick="delProduct(${p.id})">Del</button></div></td></tr>`,
+        ).join("");
+      }
+      async function saveProduct(id) {
+        try {
+          await api("/api/admin/products/" + id, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "x-admin-token": TOK,
+            },
+            body: JSON.stringify({
+              price: Number($("pp" + id).value),
+              old: Number($("po" + id).value),
+              rate: Number($("pr" + id).value),
+            }),
+          });
+          ok("Product #" + id + " saved.");
+          load(false);
+        } catch (e) {
+          err("Save failed: " + e.message);
+        }
+      }
+      async function delProduct(id) {
+        if (!confirm("Delete product #" + id + "?")) return;
+        try {
+          await api("/api/admin/products/" + id, { method: "DELETE" });
+          ok("Deleted #" + id);
+          load(false);
+        } catch (e) {
+          err("Delete failed: " + e.message);
+        }
+      }
+      function renderCoupons() {
+        $("rowsCou").innerHTML =
+          COUPONS.map(
+            (c) =>
+              `<tr><td><b>${esc(c.code)}</b></td><td>-${c.pct}%</td><td>$${c.min || 0}</td><td>${c.active ? "✅" : "❌"}</td><td><div class="rowbtns"><button onclick="toggleCoupon('${esc(c.code)}',${c.active ? 0 : 1})">${c.active ? "Off" : "On"}</button><button class="danger" onclick="delCoupon('${esc(c.code)}')">Del</button></div></td></tr>`,
+          ).join("") ||
+          '<tr><td colspan="5" style="color:#a79fc4">No coupons.</td></tr>';
+      }
+      async function addCoupon() {
+        try {
+          await api("/api/admin/coupons", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-admin-token": TOK,
+            },
+            body: JSON.stringify({
+              code: $("cCode").value,
+              pct: Number($("cPct").value),
+              min: Number($("cMin").value),
+            }),
+          });
+          $("cCode").value = "";
+          ok("Coupon added.");
+          load(false);
+        } catch (e) {
+          err("Add failed: " + e.message);
+        }
+      }
+      async function toggleCoupon(code, on) {
+        try {
+          await api("/api/admin/coupons/" + encodeURIComponent(code), {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "x-admin-token": TOK,
+            },
+            body: JSON.stringify({ active: !!on }),
+          });
+          load(false);
+        } catch (e) {
+          err("Failed: " + e.message);
+        }
+      }
+      async function delCoupon(code) {
+        if (!confirm("Delete " + code + "?")) return;
+        try {
+          await api("/api/admin/coupons/" + encodeURIComponent(code), {
+            method: "DELETE",
+          });
+          load(false);
+        } catch (e) {
+          err("Failed: " + e.message);
+        }
+      }
+      function renderNews() {
+        if (!NEWS.length) {
+          $("rowsNews").innerHTML =
+            '<tr><td colspan="2" style="color:#a79fc4">No subscribers yet.</td></tr>';
+          return;
+        }
+        $("rowsNews").innerHTML = NEWS.slice()
+          .reverse()
+          .map(
+            (n) =>
+              `<tr><td>${esc(n.email)}</td><td><small>${esc((n.at || "").slice(0, 16).replace("T", " "))}</small></td></tr>`,
+          )
+          .join("");
+      }
+      function renderUsers() {
+        if (!USERS.length) {
+          $("rowsUsers").innerHTML =
+            '<tr><td colspan="3" style="color:#a79fc4">No signed-in customers yet.</td></tr>';
+          return;
+        }
+        $("rowsUsers").innerHTML = USERS.map(
+          (u) =>
+            `<tr><td>${esc(u.name || "—")}</td><td>${esc(u.email)}</td><td><small>${esc((u.at || "").slice(0, 16).replace("T", " "))}</small></td></tr>`,
+        ).join("");
+      }
+      function autoRef() {
+        const on = $("auto").checked;
+        if (TIMER) {
+          clearInterval(TIMER);
+          TIMER = null;
+        }
+        if (on)
+          TIMER = setInterval(() => {
+            if (TOK) load(false);
+          }, 20000);
+      }
+      autoRef();
+      function unlockVault() {
+        const v = $("vault");
+        if (v.classList.contains("gone") || v.classList.contains("open"))
+          return;
+        $("vMsg").textContent = "Access granted";
+        v.classList.add("open");
+        setTimeout(() => v.classList.add("gone"), 1500);
+      }
+      function vaultDeny(m) {
+        const v = $("vault");
+        if (v.classList.contains("gone")) return;
+        const c = $("vCard");
+        c.classList.remove("deny");
+        void c.offsetWidth;
+        c.classList.add("deny");
+        $("vMsg").textContent = m;
+      }
+      function lockVault() {
+        TOK = "";
+        $("tok").value = "";
+        $("dash").style.display = "none";
+        $("dash").classList.remove("enter");
+        const v = $("vault");
+        v.classList.remove("open", "gone");
+        $("vCard").classList.remove("deny");
+        $("vMsg").textContent = "Session locked · enter admin token";
+        setTimeout(() => $("tok").focus(), 100);
+      }
+      $("tok").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") connect();
+      });
+      setTimeout(() => $("tok").focus(), 600);
+    </script>
+  </body>
+</html>
